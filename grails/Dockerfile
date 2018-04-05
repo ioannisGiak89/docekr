@@ -4,7 +4,7 @@ MAINTAINER Ioannis Giakoumidis <ioannis.giakoumidis@gmail.com>
 ARG grails_version
 
 RUN set -x \
-    mkdir /app \
+    && mkdir /app \
     && apk update \
     && apk upgrade \
     && apk add --no-cache bash \
