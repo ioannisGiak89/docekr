@@ -34,9 +34,9 @@ echo "    Done!"
 cd "${GRAILS_WORKDIR}"
 
 if [ -f gradlew ]; then
-    ./gradlew bootRun
+  su grails -c "./gradlew --continuous bootRun"
 else
-  echo "  Use 'docker exec -it -u grails <container_name> bash' to log into the container and create your app"
+  echo "   Use 'docker exec -it -u grails <container_name> bash' to log into the container and create your app"
   #Keep container alive
   tail -f /dev/null
 fi
