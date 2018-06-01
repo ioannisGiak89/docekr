@@ -22,6 +22,7 @@ RUN set -x \
         zip \
         unzip \
         bash \
+        postgresql-client \
     && bin/bash -c "set -x \
     && curl -s 'https://get.sdkman.io' | bash \
     && source '/usr/local/sdkman/bin/sdkman-init.sh' \
