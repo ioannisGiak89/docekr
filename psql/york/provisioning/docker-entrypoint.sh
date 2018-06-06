@@ -8,9 +8,9 @@ $POSTGRES <<-EOSQL
   REVOKE CREATE ON SCHEMA PUBLIC FROM PUBLIC;
 EOSQL
 
-echo "==> Revoking create on schema public from ${POSTGRES_DB} database"
+echo "==> Revoking create on public schema from ${POSTGRES_USER} user"
 $POSTGRES <<-EOSQL
-  REVOKE CREATE ON SCHEMA PUBLIC FROM ${POSTGRES_DB};
+  REVOKE CREATE ON SCHEMA PUBLIC FROM ${POSTGRES_USER};
 EOSQL
 
 echo "==> Revoking all privileges on ${POSTGRES_DB} database from public"
