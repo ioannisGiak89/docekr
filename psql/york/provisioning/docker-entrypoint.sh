@@ -3,6 +3,21 @@ set -e
 
 POSTGRES="psql -v ON_ERROR_STOP=1 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
 
+if [ -z "${APPLICATION}" ]
+then
+    APPLICATION=${POSTGRES_DB}
+fi
+
+if [ -z "${SCHEMA}" ]
+then
+    SCHEMA=${POSTGRES_DB}
+fi
+
+if [ -z "${APPLICATION_USER_PWD}" ]
+then
+    APPLICATION_USER_PWD=${POSTGRES_PASSWORD}
+fi
+
 echo "==> Revoking create on public schema from public"
 $POSTGRES <<-EOSQL
   REVOKE CREATE ON SCHEMA PUBLIC FROM PUBLIC;
