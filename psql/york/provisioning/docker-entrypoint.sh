@@ -48,40 +48,40 @@ $POSTGRES <<-EOSQL
   ALTER USER ${POSTGRES_USER} CREATEROLE;
 EOSQL
 
-echo "==> Create ${APPLICATION}_role and grant connect privilege"
+echo "==> Create ${APPLICATION} role and grant connect privilege"
 $POSTGRES <<-EOSQL
-  CREATE ROLE ${APPLICATION}_role;
-  GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO  ${APPLICATION}_role;
+  CREATE ROLE ${APPLICATION};
+  GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO  ${APPLICATION};
 EOSQL
 
-echo "==> Create ${SCHEMA}_read_role and grant connect privilege"
+echo "==> Create ${SCHEMA}_read and grant connect privilege"
 $POSTGRES <<-EOSQL
-  CREATE ROLE ${SCHEMA}_read_role;
-  GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO ${SCHEMA}_read_role;
+  CREATE ROLE ${SCHEMA}_read;
+  GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO ${SCHEMA}_read;
 EOSQL
 
 echo "==> Create ${APPLICATION}_1 user"
 $POSTGRES <<-EOSQL
   CREATE ROLE ${APPLICATION}_1
   LOGIN PASSWORD '${APPLICATION_USER_PWD}'
-  IN ROLE ${APPLICATION}_role;
+  IN ROLE ${APPLICATION};
 EOSQL
 
-echo "==> Grant usage on schema ${SCHEMA} to ${APPLICATION}_role and ${SCHEMA}_read_role"
+echo "==> Grant usage on schema ${SCHEMA} to ${APPLICATION} and ${SCHEMA}_read"
 $POSTGRES <<-EOSQL
-  GRANT USAGE ON SCHEMA ${SCHEMA} TO ${APPLICATION}_role;
-  GRANT USAGE ON SCHEMA ${SCHEMA} TO ${SCHEMA}_read_role;
+  GRANT USAGE ON SCHEMA ${SCHEMA} TO ${APPLICATION};
+  GRANT USAGE ON SCHEMA ${SCHEMA} TO ${SCHEMA}_read;
 EOSQL
 
-echo "==> Grant select on all tables in schema ${SCHEMA} to ${SCHEMA}_read_role"
+echo "==> Grant select on all tables in schema ${SCHEMA} to ${SCHEMA}_read"
 $POSTGRES <<-EOSQL
   GRANT SELECT
   ON ALL TABLES IN SCHEMA ${SCHEMA}
-  TO ${SCHEMA}_read_role;
+  TO ${SCHEMA}_read;
 EOSQL
 
-echo "==> Set the search path for ${SCHEMA}_read_role and ${APPLICATION}_role"
+echo "==> Set the search path for ${SCHEMA}_read and ${APPLICATION}"
 $POSTGRES <<-EOSQL
-  ALTER ROLE ${APPLICATION}_role SET search_path TO ${SCHEMA};
-  ALTER ROLE ${SCHEMA}_read_role SET search_path TO ${SCHEMA};
+  ALTER ROLE ${APPLICATION} SET search_path TO ${SCHEMA};
+  ALTER ROLE ${SCHEMA}_read SET search_path TO ${SCHEMA};
 EOSQL
