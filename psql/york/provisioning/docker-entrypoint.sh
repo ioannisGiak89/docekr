@@ -3,14 +3,9 @@ set -e
 
 POSTGRES="psql -v ON_ERROR_STOP=1 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
 
-if [ -z "${APPLICATION}" ]
+if [ -z "${POSTGRES_DB}" ]
 then
-    APPLICATION=${POSTGRES_DB}
-fi
-
-if [ -z "${SCHEMA}" ]
-then
-    SCHEMA=${POSTGRES_DB}
+    POSTGRES_DB=${SCHEMA}
 fi
 
 if [ -z "${APPLICATION_USER_PWD}" ]
@@ -51,12 +46,13 @@ EOSQL
 echo "==> Create ${APPLICATION} role and grant connect privilege"
 $POSTGRES <<-EOSQL
   CREATE ROLE ${APPLICATION};
-  GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO  ${APPLICATION};
+  GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO ${APPLICATION};
 EOSQL
 
 echo "==> Create ${SCHEMA}_read and grant connect privilege"
 $POSTGRES <<-EOSQL
   CREATE ROLE ${SCHEMA}_read;
+  ALTER DEFAULT PRIVILEGES FOR ROLE ${SCHEMA}_read IN SCHEMA ${SCHEMA} GRANT SELECT ON TABLES TO ${SCHEMA}_read;
   GRANT CONNECT ON DATABASE ${POSTGRES_DB} TO ${SCHEMA}_read;
 EOSQL
 
@@ -73,15 +69,10 @@ $POSTGRES <<-EOSQL
   GRANT USAGE ON SCHEMA ${SCHEMA} TO ${SCHEMA}_read;
 EOSQL
 
-echo "==> Grant select on all tables in schema ${SCHEMA} to ${SCHEMA}_read"
+echo "==> Set the search path for ${SCHEMA}_read, ${APPLICATION} and ${POSTGRES_USER} roles/ users"
 $POSTGRES <<-EOSQL
-  GRANT SELECT
-  ON ALL TABLES IN SCHEMA ${SCHEMA}
-  TO ${SCHEMA}_read;
-EOSQL
-
-echo "==> Set the search path for ${SCHEMA}_read and ${APPLICATION}"
-$POSTGRES <<-EOSQL
+  ALTER ROLE ${POSTGRES_USER} SET search_path TO ${SCHEMA};
   ALTER ROLE ${APPLICATION} SET search_path TO ${SCHEMA};
+  ALTER ROLE ${APPLICATION}_1 SET search_path TO ${SCHEMA};
   ALTER ROLE ${SCHEMA}_read SET search_path TO ${SCHEMA};
 EOSQL
