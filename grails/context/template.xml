@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="{{CONTEXT_PATH}}" docBase="/app/build/libs/{{CONTEXT_BASE_FILE_NAME}}"
+	debug="0" reloadable="true" crossContext="false">
+	<Resources>
+  	<PostResources
+      base="/app"
+      className="org.apache.catalina.webresources.DirResourceSet"
+      webAppMount="/WEB-INF/classes"
+    />
+	</Resources>
+</Context>
