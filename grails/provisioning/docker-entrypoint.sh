@@ -22,8 +22,8 @@ else
 fi
 
 echo "==> Fixing permissions"
-chown ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_HOME}"
-chown ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_WORKDIR}"
+chown -R ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_HOME}"
+chown -R ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_WORKDIR}"
 echo "    Done!"
 
 echo "==> Attempting to create ${CONTEXT_BASE_FILE_NAME} context"
@@ -40,13 +40,14 @@ fi
 echo "==> Attempting to build WAR file ${CONTEXT_BASE_FILE_NAME}.war in ${APP_ENV} mode"
 if [ -f "${GRAILS_WORKDIR}/build.gradle" ]; then
     cd "${GRAILS_WORKDIR}"
-    su grails -c "whoami && ./grailsw -DwarName='${CONTEXT_BASE_FILE_NAME}' -Dgrails.env='${APP_ENV}' war"
+    su grails -c "./grailsw -DwarName='${CONTEXT_BASE_FILE_NAME}' -Dgrails.env='${APP_ENV}' war"
     echo "    Done!"
 fi
 
 if [ ${RUN_APP} = true ]; then
     # su grails -c "./gradlew --continuous bootRun"
-    sh /usr/local/tomcat/bin/catalina.sh run
+    chown -R ${GRAILS_UID}:${GRAILS_GID} ${CATALINA_HOME}
+    su grails -c "sh /usr/local/tomcat/bin/catalina.sh run"
 else
     echo "==> Use 'docker exec -it -u grails <container_name> bash' to log into the container and create your app"
     tail -f /dev/null
