@@ -1,7 +1,5 @@
-FROM postgres:9.5
+ARG psql_version=latest
 
-ENV SCHEMA ${SCHEMA}
-ENV APPLICATION ${APPLICATION}
-ENV APPLICATION_USER_PWD ${APPLICATION_USER_PWD}
+FROM postgres:$psql_version
 
 COPY provisioning/docker-entrypoint.sh /docker-entrypoint-initdb.d/init-user-db.sh
