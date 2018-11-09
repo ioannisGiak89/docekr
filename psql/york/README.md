@@ -6,7 +6,7 @@ https://github.com/ioannisGiak89/docker/blob/master/psql/york/Dockerfile
 
 # Build
 All you need to do is clone the repo navigate to this directory and run
-`$ docker build --build-arg psql_version=<psql_version> -t <your_registry>/psql-york:<psql_version> .`
+```$ docker build --build-arg psql_version=<psql_version> -t <your_registry>/psql-york:<psql_version> .```
 
 where `<psql_version>` the psql version you want to use
 
