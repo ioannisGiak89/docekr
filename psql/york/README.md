@@ -1,8 +1,7 @@
 ## PSQL Image for Development
 
 # Links
-You can find the image at
-https://github.com/ioannisGiak89/docker/blob/master/psql/york/Dockerfile
+You can find the image at https://hub.docker.com/r/ioannisgiak89/psql-york/
 
 # Build
 All you need to do is clone the repo navigate to this directory and run
