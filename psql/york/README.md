@@ -1,7 +1,7 @@
 ## PSQL Image for Development
 
 # Links
-You can find the code for this image at
+You can find the image at
 https://github.com/ioannisGiak89/docker/blob/master/psql/york/Dockerfile
 
 # Build
