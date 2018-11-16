@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+if [ -z "${DATE_STYLE}" ]
+then
+    pg_ctl stop
+    postgres -c "datestyle=iso, ${DATE_STYLE}"
+    pg_ctl start
+fi
+
 POSTGRES="psql -v ON_ERROR_STOP=1 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
 
 if [ -z "${APPLICATION_USER_1}" ]
