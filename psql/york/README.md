@@ -14,16 +14,17 @@ where `<psql_version>` the psql version you want to use
 Please see [tags](https://hub.docker.com/r/ioannisgiak89/psql-york/tags/)
 
 # Environment Variables
-| Name                 | Description                     | Default               | Mandatory |
-| -------------------- | ------------------------------- | --------------------- | --------- |
-| POSTGRES_USER        | The main psql user              | -                     |   Yes     |
-| POSTGRES_DB          | Database name                   | -                     |   Yes     |
-| POSTGRES_PASSWORD    | Main user's password            | -                     |   Yes     |
-| SCHEMA               | Schema name to create           | -                     |   Yes     |
-| APPLICATION_ROLE     | Application role name to create | -                     |   Yes     |
-| APPLICATION_USER_1   | Application user 1              | ${APPLICATION_ROLE}_1 |   No      |
-| APPLICATION_USER_PWD | Password for the user 1         | ${POSTGRES_PASSWORD}  |   No      |
-| SCHEMA_READ_ROLE     | Schema read role to create      | ${SCHEMA}_read        |   No      |
+| Name                 | Description                                               | Default               | Mandatory |
+| -------------------- | --------------------------------------------------------- | --------------------- | --------- |
+| POSTGRES_USER        | The main psql user                                        | -                     |   Yes     |
+| POSTGRES_DB          | Database name                                             | -                     |   Yes     |
+| POSTGRES_PASSWORD    | Main user's password                                      | -                     |   Yes     |
+| SCHEMA               | Schema name to create                                     | -                     |   Yes     |
+| APPLICATION_ROLE     | Application role name to create                           | -                     |   Yes     |
+| APPLICATION_USER_1   | Application user 1                                        | ${APPLICATION_ROLE}_1 |   No      |
+| APPLICATION_USER_PWD | Password for the user 1                                   | ${POSTGRES_PASSWORD}  |   No      |
+| SCHEMA_READ_ROLE     | Schema read role to create                                | ${SCHEMA}_read        |   No      |
+| DATE_STYLE           | Set the defualt date style. Option is added after `iso, ` | mdy                   |   No      |
 
 # Usage (Examples setting mandatory environment variables only)
 
