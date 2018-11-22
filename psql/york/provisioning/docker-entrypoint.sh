@@ -1,11 +1,12 @@
 #!/bin/bash
 set -e
 
-if [ -z "${DATE_STYLE}" ]
+if [ -n "${DATE_STYLE}" ]
 then
-    pg_ctl stop
-    postgres -c "datestyle=iso, ${DATE_STYLE}"
-    pg_ctl start
+    echo "==> Setting datestyle to ${DATE_STYLE}"
+    sed -i "s/iso, mdy/iso, $(echo "${DATE_STYLE}")/g" /var/lib/postgresql/data/postgresql.conf
+    pg_ctl reload
+    echo "    Done"
 fi
 
 POSTGRES="psql -v ON_ERROR_STOP=1 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
