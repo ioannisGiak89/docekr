@@ -8,7 +8,7 @@ All you need to do is clone the repo navigate to this directory and run
 where `<grails_version>` the grails version you want to use
 
 # Usage
-# with docker compose file
+## with docker compose file
 
 ```yaml
 version: "3.0"
