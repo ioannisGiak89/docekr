@@ -30,5 +30,5 @@ services:
 
 The provision script will create a grails user for you. You can access the container by running
 ```bash
-$docker exec -it -u grails <container_name> bash
+$ docker exec -it -u grails <container_name> bash
 ```
