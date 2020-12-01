@@ -1,4 +1,4 @@
-FROM tomcat:8-jre8-alpine
+FROM tomcat:9-jdk11-slim
 MAINTAINER Ioannis Giakoumidis <ioannis.giakoumidis@gmail.com>
 
 COPY provisioning/docker-entrypoint.sh /opt/grails-setup/docker-entrypoint.sh
@@ -16,13 +16,12 @@ ARG grails_version
 
 RUN set -x \
     && mkdir /app \
-    && apk update \
-    && apk upgrade \
-    && apk add --no-cache \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y \
         curl \
         zip \
         unzip \
-        postgresql-client \
     && /bin/bash -c "set -x \
     && curl -s 'https://get.sdkman.io' | bash \
     && source '/usr/local/sdkman/bin/sdkman-init.sh' \

@@ -7,7 +7,8 @@ echo "==> Attempting to create 'grails' user."
 if [ ${#USER} == 0 ] && [ ${#GROUP} == 0 ]; then
     # Create the user with the given home directory.
     echo "    Creating user with UID:GID of ${GRAILS_UID}:${GRAILS_GID}"
-    adduser -D -s /bin/bash -u ${GRAILS_UID} -g ${GRAILS_GID} -h ${GRAILS_HOME} grails
+    groupadd -g ${GRAILS_GID} grails
+    adduser -q --system --disabled-password --shell /bin/bash --uid ${GRAILS_UID} --gid ${GRAILS_GID} --home ${GRAILS_HOME} grails
 else
     echo "    User 'grails' already exists."
 fi
@@ -38,9 +39,9 @@ else
 fi
 
 echo "==> Attempting to build WAR file ${CONTEXT_BASE_FILE_NAME}.war in ${APP_ENV} mode"
-if [ -f "${GRAILS_WORKDIR}/build.gradle" ]; then
+if [ ${BUILD_APP} = true ]; then
     cd "${GRAILS_WORKDIR}"
-    su grails -c "./grailsw -DwarName='${CONTEXT_BASE_FILE_NAME}' -Dgrails.env='${APP_ENV}' war"
+    su grails -c "./gradlew -DwarName='${CONTEXT_BASE_FILE_NAME}' -Dgrails.env='${APP_ENV}' war"
     echo "    Done!"
 fi
 
