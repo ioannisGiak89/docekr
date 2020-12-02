@@ -26,16 +26,21 @@ fi
 
 echo "==> Fixing permissions"
 
-chown ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_HOME}"
-chown ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_WORKDIR}"
+chown -R ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_HOME}"
+chown -R ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_WORKDIR}"
 
 echo "    Done!"
 
 cd "${GRAILS_WORKDIR}"
 
-if [ ${RUN_APP} = true ]; then
-  su grails -c "./gradlew --continuous bootRun"
-else
-  echo "==> Use 'docker exec -it -u grails <container_name> bash' to log into the container and create your app"
-  tail -f /dev/null
+echo "==> Attempting to build WAR file ${CONTEXT_BASE_FILE_NAME}.war in ${APP_ENV} mode"
+if [ ${BUILD_APP} = true ]; then
+    echo "    Clean old builds"
+    rm -rf build/libs
+    su grails -c "./gradlew clean dependencies test codenarcMain war -Dgrails.env='${APP_ENV}'"
+    mv build/libs/*.war build/libs/${CONTEXT_BASE_FILE_NAME}.war
+    echo "    Done!"
 fi
+
+echo "==> Use 'docker exec -it -u grails <container_name> bash' to log into the container and create your app"
+tail -f /dev/null
