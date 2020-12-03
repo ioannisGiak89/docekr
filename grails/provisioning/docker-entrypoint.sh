@@ -37,7 +37,6 @@ echo "    Done!"
 
 echo "==> Attempting to create ${CONTEXT_BASE_FILE_NAME} context"
 if [ ! -f "${CATALINA_HOME}/conf/Catalina/localhost/${CONTEXT_BASE_FILE_NAME}.xml" ]; then
-    sed -i "s/{{CONTEXT_PATH}}/$(echo "${CONTEXT_PATH}")/g"  /tmp/template.xml
     sed -i "s/{{CONTEXT_BASE_FILE_NAME}}/${CONTEXT_BASE_FILE_NAME}/g" /tmp/template.xml
     mkdir -p "${CATALINA_HOME}/conf/Catalina/localhost/"
     cp /tmp/template.xml "${CATALINA_HOME}/conf/Catalina/localhost/${CONTEXT_BASE_FILE_NAME}.xml"
