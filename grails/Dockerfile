@@ -20,7 +20,4 @@ RUN set -x \
         bash \
     && chmod +x /opt/grails-setup/docker-entrypoint.sh
 
-EXPOSE 8080
-EXPOSE 5005
-
 ENTRYPOINT ["/opt/grails-setup/docker-entrypoint.sh"]

@@ -9,7 +9,6 @@ if [ ${#USER} == 0 ] && [ ${#GROUP} == 0 ]; then
     # Create the user with the given home directory.
     echo "    Creating user with UID:GID of ${GRAILS_UID}:${GRAILS_GID}"
     adduser -D -s /bin/bash -u ${GRAILS_UID} -g ${GRAILS_GID} -h ${GRAILS_HOME} grails
-
 else
     echo "    User 'grails' already exists."
 fi
@@ -42,5 +41,7 @@ if [ ${BUILD_APP} = true ]; then
     echo "    Done!"
 fi
 
-echo "==> Use 'docker exec -it -u grails <container_name> bash' to log into the container and create your app"
-tail -f /dev/null
+if [ ${KEEP_CONTAINER_ALIVE} = true ]; then
+    echo "==> Use 'docker exec -it -u grails <container_name> bash' to log into the container and create your app"
+    tail -f /dev/null
+fi
