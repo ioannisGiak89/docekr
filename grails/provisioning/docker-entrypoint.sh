@@ -22,6 +22,14 @@ else
     echo "    Already exists!"
 fi
 
+while [ ! -f "${GRAILS_WORKDIR}/.war-is-ready" ];
+do
+echo "    Waiting for war file"
+sleep 2;
+done
+
+rm ${GRAILS_WORKDIR}/.war-is-ready
+
 echo "==> Fixing permissions"
 chown -R ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_HOME}"
 chown -R ${GRAILS_UID}:${GRAILS_GID} "${GRAILS_WORKDIR}"
