@@ -9,10 +9,6 @@ ENV GRAILS_UID 1000
 ENV GRAILS_GID 1000
 ENV GRAILS_HOME /home/grails
 ENV GRAILS_WORKDIR /app
-ENV PATH ${PATH}:/usr/local/sdkman/candidates/grails/current/bin
-ENV SDKMAN_DIR="/usr/local/sdkman"
-
-ARG grails_version
 
 RUN set -x \
     && mkdir /app \
@@ -22,11 +18,6 @@ RUN set -x \
         curl \
         zip \
         unzip \
-    && /bin/bash -c "set -x \
-    && curl -s 'https://get.sdkman.io' | bash \
-    && source '/usr/local/sdkman/bin/sdkman-init.sh' \
-    && sdk install grails $grails_version" \
-    && sed -i 's/webapps/\/app\/build\/libs/g' /usr/local/tomcat/conf/server.xml \
     && chmod +x /opt/grails-setup/docker-entrypoint.sh
 
 EXPOSE 8080

@@ -38,13 +38,6 @@ else
     echo "    Already exists!"
 fi
 
-echo "==> Attempting to build WAR file ${CONTEXT_BASE_FILE_NAME}.war in ${APP_ENV} mode"
-if [ ${BUILD_APP} = true ]; then
-    cd "${GRAILS_WORKDIR}"
-    su grails -c "./gradlew -DwarName='${CONTEXT_BASE_FILE_NAME}' -Dgrails.env='${APP_ENV}' war"
-    echo "    Done!"
-fi
-
 if [ ${RUN_APP} = true ]; then
     # su grails -c "./gradlew --continuous bootRun"
     chown -R ${GRAILS_UID}:${GRAILS_GID} ${CATALINA_HOME}
