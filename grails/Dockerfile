@@ -1,7 +1,8 @@
-FROM openjdk:8-jdk-alpine3.7
+FROM tomcat:8-jre8-alpine
 MAINTAINER Ioannis Giakoumidis <ioannis.giakoumidis@gmail.com>
 
 COPY provisioning/docker-entrypoint.sh /opt/grails-setup/docker-entrypoint.sh
+COPY context/template.xml /tmp/template.xml
 
 ENV GRAILS_OPTS="-XX:-UseSplitVerifier -Xverify:none"
 ENV GRAILS_UID 1000
@@ -21,12 +22,12 @@ RUN set -x \
         curl \
         zip \
         unzip \
-        bash \
         postgresql-client \
-    && bin/bash -c "set -x \
+    && /bin/bash -c "set -x \
     && curl -s 'https://get.sdkman.io' | bash \
     && source '/usr/local/sdkman/bin/sdkman-init.sh' \
     && sdk install grails $grails_version" \
+    && sed -i 's/webapps/\/app\/build\/libs/g' /usr/local/tomcat/conf/server.xml \
     && chmod +x /opt/grails-setup/docker-entrypoint.sh
 
 EXPOSE 8080
