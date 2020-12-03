@@ -38,6 +38,7 @@ if [ ${BUILD_APP} = true ]; then
     rm -rf build/libs
     su grails -c "./gradlew clean dependencies test codenarcMain war -Dgrails.env='${APP_ENV}'"
     mv build/libs/*.war build/libs/${CONTEXT_BASE_FILE_NAME}.war
+    touch ${GRAILS_WORKDIR}/.war-is-ready
     echo "    Done!"
 fi
 
